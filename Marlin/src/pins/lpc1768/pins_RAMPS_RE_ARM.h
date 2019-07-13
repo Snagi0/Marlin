@@ -45,20 +45,21 @@
 //
 // Servos
 //
-#define SERVO0_PIN         P1_20   // (11)
-#define SERVO1_PIN         P1_21   // ( 6) also on J5-1
-#define SERVO2_PIN         P1_19   // ( 5)
-#define SERVO3_PIN         P1_18   // ( 4) 5V output
+#define SERVO0_PIN         P1_18   // 5V output BL Touch
+//#define SERVO0_PIN         P1_20   // (11)
+//#define SERVO1_PIN         P1_21   // ( 6) also on J5-1
+//#define SERVO2_PIN         P1_19   // ( 5)
+//#define SERVO3_PIN         P1_18   // ( 4) 5V output
 
 //
 // Limit Switches
 //
 #define X_MIN_PIN          P1_24   // ( 3) 10k pullup to 3.3V, 1K series
-#define X_MAX_PIN          P1_25   // ( 2) 10k pullup to 3.3V, 1K series
+//#define X_MAX_PIN          P1_25   // ( 2) 10k pullup to 3.3V, 1K series
 #define Y_MIN_PIN          P1_26   // (14) 10k pullup to 3.3V, 1K series
-#define Y_MAX_PIN          P1_27   // (15) 10k pullup to 3.3V, 1K series
+//#define Y_MAX_PIN          P1_27   // (15) 10k pullup to 3.3V, 1K series
 #define Z_MIN_PIN          P1_29   // (18) 10k pullup to 3.3V, 1K series
-#define Z_MAX_PIN          P1_28   // (19) 10k pullup to 3.3V, 1K series
+//#define Z_MAX_PIN          P1_28   // (19) 10k pullup to 3.3V, 1K series
 
 //
 // Steppers
@@ -128,17 +129,17 @@
    // P2_08 E1-Step
    // P2_13 E1-Dir
 
-  #define X_SERIAL_TX_PIN    P2_13
-  #define X_SERIAL_RX_PIN    P2_13
+  #define X_SERIAL_TX_PIN     P1_00  // P2_13
+  #define X_SERIAL_RX_PIN     P0_26  // P2_13
 
-  #define Y_SERIAL_TX_PIN    P0_00
-  #define Y_SERIAL_RX_PIN    P0_00
+  #define Y_SERIAL_TX_PIN     P1_08  // P0_00
+  #define Y_SERIAL_RX_PIN     P1_04  // P0_00
 
-  #define Z_SERIAL_TX_PIN    P0_01
-  #define Z_SERIAL_RX_PIN    P0_01
+  #define Z_SERIAL_TX_PIN     P1_09  // P0_01
+  #define Z_SERIAL_RX_PIN     P1_10  // P0_01
 
-  #define E0_SERIAL_TX_PIN   P2_08
-  #define E0_SERIAL_RX_PIN   P2_08
+  #define E0_SERIAL_TX_PIN    P1_15  // P2_08
+  #define E0_SERIAL_RX_PIN    P1_14  // P2_08
 
 #endif
 
@@ -146,17 +147,17 @@
 // Temperature Sensors
 //  3.3V max when defined as an analog input
 //
-#define TEMP_0_PIN          0   // A0 (T0) - (67) - TEMP_0_PIN
-#define TEMP_BED_PIN        1   // A1 (T1) - (68) - TEMP_BED_PIN
-#define TEMP_1_PIN          2   // A2 (T2) - (69) - TEMP_1_PIN
-#define TEMP_2_PIN          3   // A3 - (63) - J5-3 & AUX-2
-#define TEMP_3_PIN          4   // A4 - (37) - BUZZER_PIN
-//#define TEMP_4_PIN          5   // A5 - (49) - SD_DETECT_PIN
-//#define ??                  6   // A6 - ( 0)  - RXD0 - J4-4 & AUX-1
-#define FILWIDTH_PIN        7   // A7 - ( 1)  - TXD0 - J4-5 & AUX-1
+#define TEMP_BED_PIN        0   // A0 (T0) - (67) - TH1
+#define FILWIDTH_PIN        1   // A1 (T1) - (68) - TH2
+#define TEMP_0_PIN          2   // A2 (T2) - (69) - TH3
+//#define TEMP_1_PIN          3   // A3 - (63) - P0_26 J5-3 & AUX-2
+//#define TEMP_2_PIN          4   // A4 - (37) - P1_30 BUZZER_PIN
+//#define TEMP_3_PIN          5   // A5 - (49) - P1_31 SD_DETECT_PIN
+//#define TEMP_4_PIN          6   // A6 - ( 0)  - RXD0 - J4-4 & AUX-1
+//#define TEMP_5_PIN          7   // A7 - ( 1)  - TXD0 - J4-5 & AUX-1
 
 //
-// Augmentation for auto-assigning RAMPS plugs
+// Augmentation for auto-assigning RAMPS plugs (D10, D9, D8)
 //
 #if NONE(IS_RAMPS_EEB, IS_RAMPS_EEF, IS_RAMPS_EFB, IS_RAMPS_EFF, IS_RAMPS_SF) && !PIN_EXISTS(MOSFET_D)
   #if HOTENDS > 1
@@ -227,10 +228,10 @@
 
 // define digital pin 4 for the filament runout sensor. Use the RAMPS 1.4 digital input 4 on the servos connector
 #ifndef FIL_RUNOUT_PIN
-  #define FIL_RUNOUT_PIN   P1_18   // (4)
+  #define FIL_RUNOUT_PIN   P1_16   // P1_18 (4)
 #endif
 
-#define PS_ON_PIN          P2_12   // (12)
+#define PS_ON_PIN          -1   // P2_12 (12)
 
 #if !defined(MAX6675_SS_PIN) && DISABLED(USE_ZMAX_PLUG)
   #define MAX6675_SS_PIN   P1_28
@@ -262,11 +263,12 @@
 //
 // Průša i3 MK2 Multiplexer Support
 //
-#if SERIAL_PORT != 0 && SERIAL_PORT_2 != 0
+/*#if SERIAL_PORT != 0 && SERIAL_PORT_2 != 0
   #define E_MUX0_PIN       P0_03   // ( 0) Z_CS_PIN
   #define E_MUX1_PIN       P0_02   // ( 1) E0_CS_PIN
 #endif
 #define E_MUX2_PIN         P0_26   // (63) E1_CS_PIN
+*/
 
 /**
  * LCD / Controller
@@ -318,17 +320,17 @@
     #define BEEPER_PIN     P1_01
     #define BTN_ENC        P1_04
   #else
-    #define BEEPER_PIN     P1_30   // (37) not 5V tolerant
+    //#define BEEPER_PIN     P1_30   // (37) not 5V tolerant
     #define BTN_ENC        P2_11   // (35) J3-3 & AUX-4
   #endif
 
   #define BTN_EN1          P3_26   // (31) J3-2 & AUX-4
   #define BTN_EN2          P3_25   // (33) J3-4 & AUX-4
 
-  #define SD_DETECT_PIN    P1_31   // (49) J3-1 & AUX-3 (NOT 5V tolerant)
+  //#define SD_DETECT_PIN    P1_31   // (49) J3-1 & AUX-3 (NOT 5V tolerant)
   #define KILL_PIN         P1_22   // (41) J5-4 & AUX-4
-  #define LCD_PINS_RS      P0_16   // (16) J3-7 & AUX-4
-  #define LCD_SDSS         P0_16   // (16) J3-7 & AUX-4
+  //#define LCD_PINS_RS      P0_16   // (16) J3-7 & AUX-4
+  //#define LCD_SDSS         P0_16   // (16) J3-7 & AUX-4
 
   #if ENABLED(NEWPANEL)
     #if ENABLED(REPRAPWORLD_KEYPAD)
@@ -381,7 +383,7 @@
         #define NEOPIXEL_PIN    P1_00
       #endif
     #else
-      #define DOGLCD_CS    P0_26   // (63) J5-3 & AUX-2
+      #define DOGLCD_CS    P0_16   // (63) J5-3 & AUX-2
       #define DOGLCD_A0    P2_06   // (59) J3-8 & AUX-2
     #endif
 
@@ -408,7 +410,7 @@
 //
 // Ethernet pins
 //
-#if DISABLED(ULTIPANEL)
+/*#if DISABLED(ULTIPANEL)
   #define ENET_MDIO        P1_17   // (71)  J12-4
   #define ENET_RX_ER       P1_14   // (73)  J12-6
   #define ENET_RXD1        P1_10   // (75)  J12-8
@@ -420,7 +422,7 @@
 #define ENET_TX_EN         P1_04   // (77)  J12-10
 #define ENET_TXD0          P1_00   // (78)  J12-11
 #define ENET_TXD1          P1_01   // (79)  J12-12
-
+*/
 //
 // SD Support
 //
