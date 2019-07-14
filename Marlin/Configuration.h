@@ -820,7 +820,7 @@
  *      - normally-open switches to 5V and D32.
  *
  */
-#define Z_MIN_PROBE_PIN P1_17 // Pin 32 is the RAMPS default
+#define Z_MIN_PROBE_PIN P1_19 // Pin 32 is the RAMPS default
 
 /**
  * Probe Type

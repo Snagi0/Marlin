@@ -81,9 +81,9 @@
 #define E0_ENABLE_PIN      P0_04   // (24)
 
 #ifdef E1_DRIVER_TYPE
-  #define E1_STEP_PIN        P2_08   // (36)
-  #define E1_DIR_PIN         P2_13   // (34)
-  #define E1_ENABLE_PIN      P4_29   // (30)
+  #define E1_STEP_PIN        -1  //  P2_08   // (36)
+  #define E1_DIR_PIN         -1  //  P2_13   // (34)
+  #define E1_ENABLE_PIN      -1  //  P4_29   // (30)
 #endif
 
 //
@@ -91,25 +91,25 @@
 //
 #if ENABLED(TMC_USE_SW_SPI)
   #ifndef TMC_SW_MOSI
-    #define TMC_SW_MOSI    P1_00   // ETH
+    #define TMC_SW_MOSI    -1  //  P1_00   // ETH
   #endif
   #ifndef TMC_SW_MISO
-    #define TMC_SW_MISO    P1_08   // ETH
+    #define TMC_SW_MISO    -1  //  P1_08   // ETH
   #endif
   #ifndef TMC_SW_SCK
-    #define TMC_SW_SCK     P1_09   // ETH
+    #define TMC_SW_SCK     -1  //  P1_09   // ETH
   #endif
   #ifndef X_CS_PIN
-    #define X_CS_PIN         P1_01   // ETH
+    #define X_CS_PIN         -1  //  P1_01   // ETH
   #endif
   #ifndef Y_CS_PIN
-    #define Y_CS_PIN         P1_04   // ETH
+    #define Y_CS_PIN         -1  //  P1_04   // ETH
   #endif
   #ifndef Z_CS_PIN
-    #define Z_CS_PIN         P1_10   // ETH
+    #define Z_CS_PIN         -1  //  P1_10   // ETH
   #endif
   #ifndef E0_CS_PIN
-    #define E0_CS_PIN        P1_14   // ETH
+    #define E0_CS_PIN        -1  //  P1_14   // ETH
   #endif
   #ifdef E1_DRIVER_TYPE
     #ifndef E1_CS_PIN
@@ -133,17 +133,17 @@
    // P2_08 E1-Step
    // P2_13 E1-Dir
 
-  #define X_SERIAL_TX_PIN     P1_00  // P2_13
-  #define X_SERIAL_RX_PIN     P0_26  // P2_13
+  #define X_SERIAL_TX_PIN     P2_08
+  #define X_SERIAL_RX_PIN     P2_08
 
-  #define Y_SERIAL_TX_PIN     P1_08  // P0_00
-  #define Y_SERIAL_RX_PIN     P1_04  // P0_00
+  #define Y_SERIAL_TX_PIN     P2_13
+  #define Y_SERIAL_RX_PIN     P2_13
 
-  #define Z_SERIAL_TX_PIN     P1_09  // P0_01
-  #define Z_SERIAL_RX_PIN     P1_10  // P0_01
+  #define Z_SERIAL_TX_PIN     P0_01
+  #define Z_SERIAL_RX_PIN     P0_01
 
-  #define E0_SERIAL_TX_PIN    P1_15  // P2_08
-  #define E0_SERIAL_RX_PIN    P1_14  // P2_08
+  #define E0_SERIAL_TX_PIN    P0_00
+  #define E0_SERIAL_RX_PIN    P0_00
 
 #endif
 
@@ -232,7 +232,7 @@
 
 // define digital pin 4 for the filament runout sensor. Use the RAMPS 1.4 digital input 4 on the servos connector
 #ifndef FIL_RUNOUT_PIN
-  #define FIL_RUNOUT_PIN   P1_16   // P1_18 (4)
+  #define FIL_RUNOUT_PIN   P1_20   // P1_18 (4)
 #endif
 
 #define PS_ON_PIN          -1   // P2_12 (12)
@@ -335,7 +335,7 @@
   #define BTN_EN1          P3_26   // (31) J3-2 & AUX-4   // active with MINIPANEL
   #define BTN_EN2          P3_25   // (33) J3-4 & AUX-4   // active with MINIPANEL
 
-  //#define SD_DETECT_PIN    P1_31   // (49) J3-1 & AUX-3 (NOT 5V tolerant)
+  #define SD_DETECT_PIN    P1_31   // (49) J3-1 & AUX-3 (NOT 5V tolerant)
   #define KILL_PIN         P1_22   // (41) J5-4 & AUX-4   // active with MINIPANEL
   //#define LCD_PINS_RS      P0_16   // (16) J3-7 & AUX-4   // active with MINIPANEL
   //#define LCD_SDSS         P0_16   // (16) J3-7 & AUX-4

@@ -1289,7 +1289,7 @@
  *
  * Override the default value based on the driver type set in Configuration.h.
  */
-#define MINIMUM_STEPPER_DIR_DELAY 30
+#define MINIMUM_STEPPER_DIR_DELAY 20
 
 /**
  * Minimum stepper driver pulse width (in µs)
@@ -2045,10 +2045,10 @@
 #endif // L6470
 
 /**
- * TWI/I2C BUS
+ * TWI/
  *
  * This feature is an EXPERIMENTAL feature so it shall not be used on production
- * machines. Enabling this will allow you to send and receive I2C data from slave
+ * machines. Enabling this will allow you to send and receive
  * devices on the bus.
  *
  * ; Example #1
@@ -2075,7 +2075,7 @@
 // @section i2cbus
 
 //#define EXPERIMENTAL_I2CBUS
-#define I2C_SLAVE_ADDRESS  0 // Set a value from 8 to 127 to act as a slave
+//#define I2C_SLAVE_ADDRESS  0 // Set a value from 8 to 127 to act as a slave
 
 // @section extras
 
