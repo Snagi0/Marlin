@@ -335,7 +335,7 @@
   #define BTN_EN1          P3_26   // (31) J3-2 & AUX-4   // active with MINIPANEL
   #define BTN_EN2          P3_25   // (33) J3-4 & AUX-4   // active with MINIPANEL
 
-  #define SD_DETECT_PIN    P1_31   // (49) J3-1 & AUX-3 (NOT 5V tolerant)
+  //#define SD_DETECT_PIN    P1_31   // (49) J3-1 & AUX-3 (NOT 5V tolerant)
   #define KILL_PIN         P1_22   // (41) J5-4 & AUX-4   // active with MINIPANEL
   //#define LCD_PINS_RS      P0_16   // (16) J3-7 & AUX-4   // active with MINIPANEL
   //#define LCD_SDSS         P0_16   // (16) J3-7 & AUX-4
@@ -370,8 +370,8 @@
       //#define DOGLCD_MOSI  P0_18
 
       // EXP1 on LCD adapter is not usable - using Ethernet connector instead
-      //#define DOGLCD_CS    P1_09
-      //#define DOGLCD_A0    P1_14
+      //#define DOGLCD_CS    P1_16
+      //#define DOGLCD_A0    P2_06
       //#define FORCE_SOFT_SPI    // Use this if default of hardware SPI causes display problems
                                   //   results in LCD soft SPI mode 3, SD soft SPI mode 0
 
@@ -393,9 +393,12 @@
     #else   // active with MINIPANEL
       #define DOGLCD_CS    P0_16   // (63) J5-3 & AUX-2   // active with MINIPANEL
       #define DOGLCD_A0    P2_06   // (59) J3-8 & AUX-2   // active with MINIPANEL
+      #define DOGLCD_SCK    P0_15
+      #define DOGLCD_MOSI    P0_18
     #endif
 
     //#define LCD_BACKLIGHT_PIN P0_16 //(16) J3-7 & AUX-4 - only used on DOGLCD controllers   // active with MINIPANEL
+    #define FORCE_SOFT_SPI
     #define LCD_PINS_ENABLE P0_18  // (51) (MOSI) J3-10 & AUX-3   // active with MINIPANEL
     #define LCD_PINS_D4    P0_15   // (52) (SCK)  J3-9 & AUX-3   // active with MINIPANEL
     #if ENABLED(ULTIPANEL)   // active with MINIPANEL
