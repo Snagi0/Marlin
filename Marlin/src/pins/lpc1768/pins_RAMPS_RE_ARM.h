@@ -40,7 +40,7 @@
   #error "Oops! Make sure you have the LPC1768 environment selected in your IDE."
 #endif
 
-#define BOARD_NAME "Re-ARM RAMPS 1.4"
+#define BOARD_INFO_NAME "Re-ARM RAMPS 1.4"
 
 //
 // Servos
@@ -126,12 +126,12 @@
    * If undefined software serial is used according to the pins below
    */
 
-  /**
-   * Software serial
-   */
+  //
+  // Software serial
+  //
 
-   // P2_08 E1-Step
-   // P2_13 E1-Dir
+  // P2_08 E1-Step
+  // P2_13 E1-Dir
 
   #define X_SERIAL_TX_PIN     P2_08
   #define X_SERIAL_RX_PIN     P2_08
@@ -262,9 +262,9 @@
       #error "LASER_FEATURE requires 3 free servo pins."
     #endif
   #endif
-  #define SPINDLE_LASER_ENA_PIN    SERVO1_PIN   // (6) Pin should have a pullup/pulldown!
-  #define SPINDLE_LASER_PWM_PIN    SERVO3_PIN   // (4) MUST BE HARDWARE PWM
-  #define SPINDLE_DIR_PIN          SERVO2_PIN   // (5)
+  #define SPINDLE_LASER_ENA_PIN SERVO1_PIN   // (6) Pin should have a pullup/pulldown!
+  #define SPINDLE_LASER_PWM_PIN SERVO3_PIN   // (4) MUST BE HARDWARE PWM
+  #define SPINDLE_DIR_PIN       SERVO2_PIN   // (5)
 #endif
 */
 
@@ -319,10 +319,10 @@
 
 #elif HAS_SPI_LCD   // active with MINIPANEL
 
-  //#define SCK_PIN        P0_15   // (52)  system defined J3-9 & AUX-3
-  //#define MISO_PIN       P0_17   // (50)  system defined J3-10 & AUX-3
-  //#define MOSI_PIN       P0_18   // (51)  system defined J3-10 & AUX-3
-  //#define SS_PIN         P1_23   // (53)  system defined J3-5 & AUX-3 (Sometimes called SDSS)
+  //#define SCK_PIN          P0_15   // (52)  system defined J3-9 & AUX-3
+  //#define MISO_PIN         P0_17   // (50)  system defined J3-10 & AUX-3
+  //#define MOSI_PIN         P0_18   // (51)  system defined J3-10 & AUX-3
+  //#define SS_PIN           P1_23   // (53)  system defined J3-5 & AUX-3 (Sometimes called SDSS)
 
   #if ENABLED(FYSETC_MINI_12864)
     //#define BEEPER_PIN     P1_01
@@ -347,10 +347,10 @@
       //#define SHIFT_LD     P1_31   // (49)        J3-1 & AUX-3 (NOT 5V tolerant)
     #endif
   #else
-    //#define SHIFT_CLK    P3_26   // (31)  J3-2 & AUX-4
-    //#define SHIFT_LD     P3_25   // (33)  J3-4 & AUX-4
-    //#define SHIFT_OUT    P2_11   // (35)  J3-3 & AUX-4
-    //#define SHIFT_EN     P1_22   // (41)  J5-4 & AUX-4
+    //#define SHIFT_CLK      P3_26   // (31)  J3-2 & AUX-4
+    //#define SHIFT_LD       P3_25   // (33)  J3-4 & AUX-4
+    //#define SHIFT_OUT      P2_11   // (35)  J3-3 & AUX-4
+    //#define SHIFT_EN       P1_22   // (41)  J5-4 & AUX-4
   #endif
 
   #if ANY(VIKI2, miniVIKI)
