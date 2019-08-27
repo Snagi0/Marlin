@@ -44,7 +44,7 @@
 
 //
 // Servos
-//
+//M43
 #define SERVO0_PIN         P1_18   // ( 4) 5V output BL Touch
 //#define SERVO0_PIN         P1_20   // (11)
 //#define SERVO1_PIN         P1_21   // ( 6) also on J5-1
@@ -336,7 +336,7 @@
   #define BTN_EN2          P3_25   // (33) J3-4 & AUX-4   // active with MINIPANEL
 
   //#define SD_DETECT_PIN    P1_31   // (49) J3-1 & AUX-3 (NOT 5V tolerant)
-  #define KILL_PIN         P1_22   // (41) J5-4 & AUX-4   // active with MINIPANEL
+  #define KILL_PIN           P1_22   // (41) J5-4 & AUX-4   // active with MINIPANEL
   //#define LCD_PINS_RS      P0_16   // (16) J3-7 & AUX-4   // active with MINIPANEL
   //#define LCD_SDSS         P0_16   // (16) J3-7 & AUX-4
 
@@ -476,7 +476,7 @@
  *
  *     P1_20 (11)   SERVO0_PIN
  *     P1_21 ( 6)   SERVO1_PIN       J5-1
- *     P0_18 ( 4)   SERVO3_PIN       5V output
+ *     P1_18 ( 4)   SERVO3_PIN       5V output
  *    *P2_04 ( 9)   RAMPS_D9_PIN
  *    *P2_05 (10)   RAMPS_D10_PIN
  *
