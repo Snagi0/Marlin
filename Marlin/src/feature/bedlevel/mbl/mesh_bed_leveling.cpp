@@ -29,10 +29,6 @@
   #include "../../../module/motion.h"
   #include "../../../feature/bedlevel/bedlevel.h"
 
-  #if ENABLED(EXTENSIBLE_UI)
-    #include "../../../lcd/extensible_ui/ui_api.h"
-  #endif
-
   mesh_bed_leveling mbl;
 
   float mesh_bed_leveling::z_offset,

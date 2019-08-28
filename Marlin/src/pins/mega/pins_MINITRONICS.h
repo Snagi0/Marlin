@@ -34,11 +34,13 @@
 
 #ifndef __AVR_ATmega1281__
   #error "Oops! Select 'Minitronics' in 'Tools > Board.'"
-#elif HOTENDS > 2 || E_STEPPERS > 2
+#endif
+
+#if HOTENDS > 2 || E_STEPPERS > 2
   #error "Minitronics supports up to 2 hotends / E-steppers. Comment out this line to continue."
 #endif
 
-#define BOARD_INFO_NAME "Minitronics v1.0/1.1"
+#define BOARD_NAME "Minitronics v1.0/1.1"
 //
 // Limit Switches
 //

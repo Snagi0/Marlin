@@ -36,7 +36,7 @@
 #include "../../../module/probe.h"
 #include "../../queue.h"
 
-#if HAS_DISPLAY
+#if BOTH(LCD_BED_LEVELING, PROBE_MANUALLY)
   #include "../../../lcd/ultralcd.h"
 #endif
 
@@ -254,8 +254,8 @@ G29_TYPE GcodeSuite::G29() {
 
       ABL_VAR int indexIntoAB[GRID_MAX_POINTS_X][GRID_MAX_POINTS_Y];
 
-      ABL_VAR float eqnAMatrix[(GRID_MAX_POINTS) * 3], // "A" matrix of the linear system of equations
-                    eqnBVector[GRID_MAX_POINTS],       // "B" vector of Z points
+      ABL_VAR float eqnAMatrix[GRID_MAX_POINTS * 3], // "A" matrix of the linear system of equations
+                    eqnBVector[GRID_MAX_POINTS],     // "B" vector of Z points
                     mean;
     #endif
 
@@ -311,7 +311,8 @@ G29_TYPE GcodeSuite::G29() {
 
         const float rx = RAW_X_POSITION(parser.linearval('X', NAN)),
                     ry = RAW_Y_POSITION(parser.linearval('Y', NAN));
-        int8_t i = parser.byteval('I', -1), j = parser.byteval('J', -1);
+        int8_t i = parser.byteval('I', -1),
+               j = parser.byteval('J', -1);
 
         if (!isnan(rx) && !isnan(ry)) {
           // Get nearest i / j from rx / ry
@@ -688,11 +689,8 @@ G29_TYPE GcodeSuite::G29() {
 
         zig ^= true; // zag
 
-        // An index to print current state
-        uint8_t pt_index = (PR_OUTER_VAR) * (PR_INNER_END) + 1;
-
         // Inner loop is Y with PROBE_Y_FIRST enabled
-        for (int8_t PR_INNER_VAR = inStart; PR_INNER_VAR != inStop; pt_index++, PR_INNER_VAR += inInc) {
+        for (int8_t PR_INNER_VAR = inStart; PR_INNER_VAR != inStop; PR_INNER_VAR += inInc) {
 
           const float xBase = left_probe_bed_position + xGridSpacing * xCount,
                       yBase = front_probe_bed_position + yGridSpacing * yCount;
@@ -709,16 +707,11 @@ G29_TYPE GcodeSuite::G29() {
             if (!position_is_reachable_by_probe(xProbe, yProbe)) continue;
           #endif
 
-          if (verbose_level) SERIAL_ECHOLNPAIR("Probing mesh point ", int(pt_index), "/", int(GRID_MAX_POINTS), ".");
-          #if HAS_DISPLAY
-            ui.status_printf_P(0, PSTR(MSG_PROBING_MESH " %i/%i"), int(pt_index), int(GRID_MAX_POINTS));
-          #endif
-
           measured_z = faux ? 0.001 * random(-100, 101) : probe_pt(xProbe, yProbe, raise_after, verbose_level);
 
           if (isnan(measured_z)) {
             set_bed_leveling_enabled(abl_should_enable);
-            break; // Breaks out of both loops
+            break;
           }
 
           #if ENABLED(AUTO_BED_LEVELING_LINEAR)
@@ -751,11 +744,6 @@ G29_TYPE GcodeSuite::G29() {
       // Probe at 3 arbitrary points
 
       for (uint8_t i = 0; i < 3; ++i) {
-        if (verbose_level) SERIAL_ECHOLNPAIR("Probing point ", int(i), "/3.");
-        #if HAS_DISPLAY
-          ui.status_printf_P(0, PSTR(MSG_PROBING_MESH " %i/3"), int(i));
-        #endif
-
         // Retain the last probe position
         xProbe = points[i].x;
         yProbe = points[i].y;
@@ -781,10 +769,6 @@ G29_TYPE GcodeSuite::G29() {
       }
 
     #endif // AUTO_BED_LEVELING_3POINT
-
-    #if HAS_DISPLAY
-      ui.reset_status();
-    #endif
 
     // Stow the probe. No raise for FIX_MOUNTED_PROBE.
     if (STOW_PROBE()) {

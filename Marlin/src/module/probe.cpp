@@ -38,7 +38,9 @@
 #include "../gcode/gcode.h"
 #include "../lcd/ultralcd.h"
 
-#include "../Marlin.h" // for stop(), disable_e_steppers, wait_for_user
+#if ANY(Z_PROBE_SLED, Z_PROBE_ALLEN_KEY, PROBE_TRIGGERED_WHEN_STOWED_TEST) || (QUIET_PROBING && ENABLED(PROBING_STEPPERS_OFF))
+  #include "../Marlin.h" // for stop(), disable_e_steppers
+#endif
 
 #if HAS_LEVELING
   #include "../feature/bedlevel/bedlevel.h"
@@ -62,10 +64,6 @@ float zprobe_zoffset; // Initialized by settings.load()
   #include "../feature/bltouch.h"
 #endif
 
-#if ENABLED(HOST_PROMPT_SUPPORT)
-  #include "../feature/host_actions.h" // for PROMPT_USER_CONTINUE
-#endif
-
 #if HAS_Z_SERVO_PROBE
   #include "servo.h"
 #endif
@@ -77,10 +75,6 @@ float zprobe_zoffset; // Initialized by settings.load()
 
 #if QUIET_PROBING
   #include "stepper_indirection.h"
-#endif
-
-#if ENABLED(EXTENSIBLE_UI)
-  #include "../lcd/extensible_ui/ui_api.h"
 #endif
 
 #define DEBUG_OUT ENABLED(DEBUG_LEVELING_FEATURE)
@@ -113,12 +107,13 @@ float zprobe_zoffset; // Initialized by settings.load()
 
   // Move to the magnet to unlock the probe
   void run_deploy_moves_script() {
-    #if TOUCH_MI_DEPLOY_XPOS > X_MAX_BED
+    #ifndef TOUCH_MI_DEPLOY_XPOS
+      #define TOUCH_MI_DEPLOY_XPOS 0
+    #elif TOUCH_MI_DEPLOY_XPOS > X_MAX_BED
       TemporaryGlobalEndstopsState unlock_x(false);
     #endif
 
     #if ENABLED(TOUCH_MI_MANUAL_DEPLOY)
-
       const screenFunc_t prev_screen = ui.currentScreen;
       LCD_MESSAGEPGM(MSG_MANUAL_DEPLOY_TOUCHMI);
       ui.return_to_status();
@@ -131,11 +126,8 @@ float zprobe_zoffset; // Initialized by settings.load()
       while (wait_for_user) idle();
       ui.reset_status();
       ui.goto_screen(prev_screen);
-
-    #elif defined(TOUCH_MI_DEPLOY_XPOS)
-
+    #else
       do_blocking_move_to_x(TOUCH_MI_DEPLOY_XPOS);
-
     #endif
   }
 
@@ -377,9 +369,6 @@ FORCE_INLINE void probe_specific_action(const bool deploy) {
       #if ENABLED(HOST_PROMPT_SUPPORT)
         host_prompt_do(PROMPT_USER_CONTINUE, PSTR("Stow Probe"), PSTR("Continue"));
       #endif
-      #if ENABLED(EXTENSIBLE_UI)
-        ExtUI::onUserConfirmRequired(PSTR("Stow Probe"));
-      #endif
       while (wait_for_user) idle();
       ui.reset_status();
 
@@ -551,7 +540,7 @@ static bool do_probe_move(const float z, const float fr_mm_s) {
 
   // Disable stealthChop if used. Enable diag1 pin on driver.
   #if ENABLED(SENSORLESS_PROBING)
-    sensorless_t stealth_states { false };
+    sensorless_t stealth_states { false, false, false, false, false, false, false };
     #if ENABLED(DELTA)
       stealth_states.x = tmc_enable_stallguard(stepperX);
       stealth_states.y = tmc_enable_stallguard(stepperY);

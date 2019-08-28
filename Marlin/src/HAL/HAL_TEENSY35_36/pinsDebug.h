@@ -16,7 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-#pragma once
+
+#ifndef HAL_PINSDEBUG_TEENSY_H
 
 #define NUMBER_PINS_TOTAL NUM_DIGITAL_PINS
 #define MULTI_NAME_PAD 16 // space needed to be pretty if not first name assigned to a pin
@@ -102,3 +103,5 @@ bool HAL_pwm_status(int8_t pin) {
 }
 
 static void HAL_pwm_details(uint8_t pin) { /* TODO */ }
+
+#endif

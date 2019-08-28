@@ -752,18 +752,17 @@
       save_ubl_active_state_and_disable();  // No bed level correction so only raw data is obtained
       DEPLOY_PROBE();
 
-      uint8_t count = GRID_MAX_POINTS;
+      uint16_t count = GRID_MAX_POINTS, current = 1;
 
       do {
+        current = (GRID_MAX_POINTS) - count + 1;
+
         if (do_ubl_mesh_map) display_map(g29_map_type);
 
-        const int current = (GRID_MAX_POINTS) - count + 1;
-        SERIAL_ECHOLNPAIR("\nProbing mesh point ", current, "/", int(GRID_MAX_POINTS), ".\n");
-        #if HAS_DISPLAY
-          ui.status_printf_P(0, PSTR(MSG_PROBING_MESH " %i/%i"), current, int(GRID_MAX_POINTS));
-        #endif
-
+        SERIAL_ECHOLNPAIR("\nProbing mesh point ", current, "/", GRID_MAX_POINTS, ".\n");
         #if HAS_LCD_MENU
+          ui.status_printf_P(0, PSTR(MSG_LCD_PROBING_MESH " %i/%i"), current, int(GRID_MAX_POINTS));
+
           if (ui.button_pressed()) {
             ui.quick_feedback(false); // Preserve button state for click-and-hold
             SERIAL_ECHOLNPGM("\nMesh only partially populated.\n");
@@ -1406,7 +1405,7 @@
 
       if (do_3_pt_leveling) {
         SERIAL_ECHOLNPGM("Tilting mesh (1/3)");
-        #if HAS_DISPLAY
+        #if HAS_LCD_MENU
           ui.status_printf_P(0, PSTR(MSG_LCD_TILTING_MESH " 1/3"));
         #endif
 
@@ -1425,7 +1424,7 @@
 
         if (!abort_flag) {
           SERIAL_ECHOLNPGM("Tilting mesh (2/3)");
-          #if HAS_DISPLAY
+          #if HAS_LCD_MENU
             ui.status_printf_P(0, PSTR(MSG_LCD_TILTING_MESH " 2/3"));
           #endif
 
@@ -1445,7 +1444,7 @@
 
         if (!abort_flag) {
           SERIAL_ECHOLNPGM("Tilting mesh (3/3)");
-          #if HAS_DISPLAY
+          #if HAS_LCD_MENU
             ui.status_printf_P(0, PSTR(MSG_LCD_TILTING_MESH " 3/3"));
           #endif
 
@@ -1486,7 +1485,7 @@
 
             if (!abort_flag) {
               SERIAL_ECHOLNPAIR("Tilting mesh point ", current, "/", total_points, "\n");
-              #if HAS_DISPLAY
+              #if HAS_LCD_MENU
                 ui.status_printf_P(0, PSTR(MSG_LCD_TILTING_MESH " %i/%i"), current, total_points);
               #endif
 
@@ -1499,7 +1498,8 @@
                 DEBUG_ECHO_F(rx, 7);
                 DEBUG_CHAR(',');
                 DEBUG_ECHO_F(ry, 7);
-                DEBUG_ECHOPGM(")   logical: (");
+                DEBUG_ECHOPGM(")   logical: ");
+                DEBUG_CHAR('(');
                 DEBUG_ECHO_F(LOGICAL_X_POSITION(rx), 7);
                 DEBUG_CHAR(',');
                 DEBUG_ECHO_F(LOGICAL_Y_POSITION(ry), 7);
