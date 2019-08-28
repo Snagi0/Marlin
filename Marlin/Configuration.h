@@ -75,8 +75,8 @@
 // build by the user have been successfully uploaded into firmware.
 #define STRING_CONFIG_H_AUTHOR "Snagi" // Who made the changes.
 #define SHOW_BOOTSCREEN
-//#define STRING_SPLASH_LINE1 "Custom 32-Bit Ender" // will be shown during bootup in line 1
-//#define STRING_SPLASH_LINE2 "By Snagi"            // will be shown during bootup in line 2
+#define STRING_SPLASH_LINE1 "Custom 32-Bit Ender" // will be shown during bootup in line 1
+#define STRING_SPLASH_LINE2 "By Snagi"            // will be shown during bootup in line 2
 
 /**
  * *** VENDORS PLEASE READ ***
@@ -89,10 +89,10 @@
  * respectfully request that you retain the unmodified Marlin boot screen.
  */
 
-// Show the bitmap in Marlin/_Bootscreen.h on startup.
+// Enable to show the bitmap in Marlin/_Bootscreen.h on startup.
 //#define SHOW_CUSTOM_BOOTSCREEN
 
-// Show the bitmap in Marlin/_Statusscreen.h on the status screen.
+// Enable to show the bitmap in Marlin/_Statusscreen.h on the status screen.
 //#define CUSTOM_STATUS_SCREEN_IMAGE
 
 // @section machine
