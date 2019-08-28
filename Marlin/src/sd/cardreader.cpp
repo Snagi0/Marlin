@@ -133,8 +133,9 @@ CardReader::CardReader() {
   // Disable autostart until card is initialized
   autostart_index = -1;
 
-  #if PIN_EXISTS(SDPOWER)
-    OUT_WRITE(SDPOWER_PIN, HIGH); // Power the SD reader
+  //power to SD reader
+  #if SDPOWER > -1
+    OUT_WRITE(SDPOWER, HIGH);
   #endif
 }
 
@@ -1007,15 +1008,17 @@ void CardReader::printingHasFinished() {
     #endif
 
     print_job_timer.stop();
-    queue.enqueue_now_P(print_job_timer.duration() > 60 ? PSTR("M31") : PSTR("M117"));
+    if (print_job_timer.duration() > 60) queue.inject_P(PSTR("M31"));
 
     #if ENABLED(SDCARD_SORT_ALPHA)
       presort();
     #endif
 
-    #if ENABLED(LCD_SET_PROGRESS_MANUALLY)
-      ui.set_progress_done();
+    #if EITHER(ULTRA_LCD, EXTENSIBLE_UI) && ENABLED(LCD_SET_PROGRESS_MANUALLY)
+      ui.progress_bar_percent = 0;
     #endif
+
+    ui.reset_status();
 
     #if ENABLED(SD_REPRINT_LAST_SELECTED_FILE)
       ui.reselect_last_file();
@@ -1042,8 +1045,10 @@ void CardReader::printingHasFinished() {
 
 #if ENABLED(POWER_LOSS_RECOVERY)
 
+  constexpr char job_recovery_file_name[5] = "/PLR";
+
   bool CardReader::jobRecoverFileExists() {
-    const bool exists = recovery.file.open(&root, recovery.filename, O_READ);
+    const bool exists = recovery.file.open(&root, job_recovery_file_name, O_READ);
     if (exists) recovery.file.close();
     return exists;
   }
@@ -1051,10 +1056,10 @@ void CardReader::printingHasFinished() {
   void CardReader::openJobRecoveryFile(const bool read) {
     if (!isDetected()) return;
     if (recovery.file.isOpen()) return;
-    if (!recovery.file.open(&root, recovery.filename, read ? O_READ : O_CREAT | O_WRITE | O_TRUNC | O_SYNC))
-      SERIAL_ECHOLNPAIR(MSG_SD_OPEN_FILE_FAIL, recovery.filename, ".");
+    if (!recovery.file.open(&root, job_recovery_file_name, read ? O_READ : O_CREAT | O_WRITE | O_TRUNC | O_SYNC))
+      SERIAL_ECHOLNPAIR(MSG_SD_OPEN_FILE_FAIL, job_recovery_file_name, ".");
     else if (!read)
-      SERIAL_ECHOLNPAIR(MSG_SD_WRITE_TO_FILE, recovery.filename);
+      SERIAL_ECHOLNPAIR(MSG_SD_WRITE_TO_FILE, job_recovery_file_name);
   }
 
   // Removing the job recovery file currently requires closing
@@ -1063,7 +1068,7 @@ void CardReader::printingHasFinished() {
   void CardReader::removeJobRecoveryFile() {
     if (jobRecoverFileExists()) {
       recovery.init();
-      removeFile(recovery.filename);
+      removeFile(job_recovery_file_name);
       #if ENABLED(DEBUG_POWER_LOSS_RECOVERY)
         SERIAL_ECHOPGM("Power-loss file delete");
         serialprintPGM(jobRecoverFileExists() ? PSTR(" failed.\n") : PSTR("d.\n"));

@@ -77,9 +77,7 @@
         ui.synchronize(PSTR(MSG_LEVEL_BED_DONE));
       #endif
       ui.goto_previous_screen_no_defer();
-      #if HAS_BUZZER
-        ui.completion_feedback();
-      #endif
+      ui.completion_feedback();
     }
     if (ui.should_draw()) draw_menu_item_static(LCD_HEIGHT >= 4 ? 1 : 0, PSTR(MSG_LEVEL_BED_DONE));
     ui.refresh(LCDVIEW_CALL_REDRAW_NEXT);
@@ -91,6 +89,7 @@
   // Step 7: Get the Z coordinate, click goes to the next point or exits
   //
   void _lcd_level_bed_get_z() {
+    ui.encoder_direction_normal();
 
     if (ui.use_click()) {
 

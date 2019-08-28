@@ -51,7 +51,7 @@
   #include "../feature/bltouch.h"
 #endif
 
-#if HAS_DISPLAY
+#if EITHER(ULTRA_LCD, EXTENSIBLE_UI)
   #include "../lcd/ultralcd.h"
 #endif
 
@@ -423,9 +423,6 @@ void do_blocking_move_to(const float rx, const float ry, const float rz, const f
 void do_blocking_move_to_x(const float &rx, const float &fr_mm_s/*=0.0*/) {
   do_blocking_move_to(rx, current_position[Y_AXIS], current_position[Z_AXIS], fr_mm_s);
 }
-void do_blocking_move_to_y(const float &ry, const float &fr_mm_s/*=0.0*/) {
-  do_blocking_move_to(current_position[Y_AXIS], ry, current_position[Z_AXIS], fr_mm_s);
-}
 void do_blocking_move_to_z(const float &rz, const float &fr_mm_s/*=0.0*/) {
   do_blocking_move_to(current_position[X_AXIS], current_position[Y_AXIS], rz, fr_mm_s);
 }
@@ -541,8 +538,10 @@ void clean_up_after_endstop_or_probe_move() {
 
     #endif
 
-  if (DEBUGGING(LEVELING))
-    SERIAL_ECHOLNPAIR("Axis ", axis_codes[axis], " min:", soft_endstop[axis].min, " max:", soft_endstop[axis].max);
+  #if ENABLED(DEBUG_LEVELING_FEATURE)
+    if (DEBUGGING(LEVELING))
+      SERIAL_ECHOLNPAIR("Axis ", axis_codes[axis], " min:", soft_endstop[axis].min, " max:", soft_endstop[axis].max);
+  #endif
 }
 
   /**
@@ -1045,7 +1044,7 @@ bool axis_unhomed_error(const bool x/*=true*/, const bool y/*=true*/, const bool
     if (zz) SERIAL_CHAR('Z');
     SERIAL_ECHOLNPGM(" " MSG_FIRST);
 
-    #if HAS_DISPLAY
+    #if EITHER(ULTRA_LCD, EXTENSIBLE_UI)
       ui.status_printf_P(0, PSTR(MSG_HOME " %s%s%s " MSG_FIRST), xx ? MSG_X : "", yy ? MSG_Y : "", zz ? MSG_Z : "");
     #endif
     return true;
@@ -1074,7 +1073,7 @@ float get_homing_bump_feedrate(const AxisEnum axis) {
    * Set sensorless homing if the axis has it, accounting for Core Kinematics.
    */
   sensorless_t start_sensorless_homing_per_axis(const AxisEnum axis) {
-    sensorless_t stealth_states { false };
+    sensorless_t stealth_states { false, false, false, false, false, false, false };
 
     switch (axis) {
       default: break;
@@ -1121,26 +1120,6 @@ float get_homing_bump_feedrate(const AxisEnum axis) {
           break;
       #endif
     }
-
-    #if ENABLED(SPI_ENDSTOPS)
-      switch (axis) {
-        #if X_SPI_SENSORLESS
-          case X_AXIS: endstops.tmc_spi_homing.x = true; break;
-        #endif
-        #if Y_SPI_SENSORLESS
-          case Y_AXIS: endstops.tmc_spi_homing.y = true; break;
-        #endif
-        #if Z_SPI_SENSORLESS
-          case Z_AXIS: endstops.tmc_spi_homing.z = true; break;
-        #endif
-        default: break;
-      }
-    #endif
-
-    #if ENABLED(IMPROVE_HOMING_RELIABILITY)
-      sg_guard_period = millis() + default_sg_guard_duration;
-    #endif
-
     return stealth_states;
   }
 
@@ -1190,21 +1169,6 @@ float get_homing_bump_feedrate(const AxisEnum axis) {
           break;
       #endif
     }
-
-    #if ENABLED(SPI_ENDSTOPS)
-      switch (axis) {
-        #if X_SPI_SENSORLESS
-          case X_AXIS: endstops.tmc_spi_homing.x = false; break;
-        #endif
-        #if Y_SPI_SENSORLESS
-          case Y_AXIS: endstops.tmc_spi_homing.y = false; break;
-        #endif
-        #if Z_SPI_SENSORLESS
-          case Z_AXIS: endstops.tmc_spi_homing.z = false; break;
-        #endif
-        default: break;
-      }
-    #endif
   }
 
 #endif // SENSORLESS_HOMING
@@ -1418,24 +1382,9 @@ void homeaxis(const AxisEnum axis) {
     // Only Z homing (with probe) is permitted
     if (axis != Z_AXIS) { BUZZ(100, 880); return; }
   #else
-    #define _CAN_HOME(A) \
+    #define CAN_HOME(A) \
       (axis == _AXIS(A) && ((A##_MIN_PIN > -1 && A##_HOME_DIR < 0) || (A##_MAX_PIN > -1 && A##_HOME_DIR > 0)))
-    #if X_SPI_SENSORLESS
-      #define CAN_HOME_X true
-    #else
-      #define CAN_HOME_X _CAN_HOME(X)
-    #endif
-    #if Y_SPI_SENSORLESS
-      #define CAN_HOME_Y true
-    #else
-      #define CAN_HOME_Y _CAN_HOME(Y)
-    #endif
-    #if Z_SPI_SENSORLESS
-      #define CAN_HOME_Z true
-    #else
-      #define CAN_HOME_Z _CAN_HOME(Z)
-    #endif
-    if (!CAN_HOME_X && !CAN_HOME_Y && !CAN_HOME_Z) return;
+    if (!CAN_HOME(X) && !CAN_HOME(Y) && !CAN_HOME(Z)) return;
   #endif
 
   if (DEBUGGING(LEVELING)) DEBUG_ECHOLNPAIR(">>> homeaxis(", axis_codes[axis], ")");
@@ -1650,21 +1599,6 @@ void homeaxis(const AxisEnum axis) {
   // Put away the Z probe
   #if HOMING_Z_WITH_PROBE
     if (axis == Z_AXIS && STOW_PROBE()) return;
-  #endif
-
-  #ifdef HOMING_BACKOFF_MM
-    constexpr float endstop_backoff[XYZ] = HOMING_BACKOFF_MM;
-    const float backoff_mm = endstop_backoff[
-      #if ENABLED(DELTA)
-        Z_AXIS
-      #else
-        axis
-      #endif
-    ];
-    if (backoff_mm) {
-      current_position[axis] -= ABS(backoff_mm) * axis_home_dir;
-      line_to_current_position(Z_PROBE_SPEED_FAST);
-    }
   #endif
 
   // Clear retracted status if homing the Z axis

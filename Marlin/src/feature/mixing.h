@@ -25,7 +25,7 @@
 
 //#define MIXER_NORMALIZER_DEBUG
 
-#ifndef __AVR__ // || DUAL_MIXING_EXTRUDER
+#if !defined(__AVR__) // || DUAL_MIXING_EXTRUDER
   // Use 16-bit (or fastest) data for the integer mix factors
   typedef uint_fast16_t mixer_comp_t;
   typedef uint_fast16_t mixer_accu_t;

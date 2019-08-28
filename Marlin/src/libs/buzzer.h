@@ -23,7 +23,11 @@
 
 #include "../inc/MarlinConfig.h"
 
-#if USE_BEEPER
+#if ENABLED(LCD_USE_I2C_BUZZER)
+
+  #define BUZZ(d,f) ui.buzz(d,f)
+
+#elif PIN_EXISTS(BEEPER)
 
   #include "circularqueue.h"
 
@@ -111,18 +115,10 @@
 
   // Provide a buzzer instance
   extern Buzzer buzzer;
-
-  // Buzz directly via the BEEPER pin tone queue
   #define BUZZ(d,f) buzzer.tone(d, f)
 
-#elif HAS_BUZZER
+#else // No buzz capability
 
-  // Buzz indirectly via the MarlinUI instance
-  #define BUZZ(d,f) ui.buzz(d,f)
-
-#else
-
-  // No buzz capability
   #define BUZZ(d,f) NOOP
 
 #endif

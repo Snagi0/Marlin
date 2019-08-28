@@ -39,7 +39,7 @@
 #endif
 
 #if ENABLED(PCA9533)
-  #include <SailfishRGB_LED.h>
+  #include "SailfishRGB_LED.h"
 #endif
 
 #if ENABLED(LED_COLOR_PRESETS)
@@ -69,7 +69,7 @@ void LEDLights::setup() {
     #endif
   #endif
   #if ENABLED(NEOPIXEL_LED)
-    neo.init();
+    setup_neopixel();
   #endif
   #if ENABLED(PCA9533)
     RGBinit();
@@ -88,27 +88,22 @@ void LEDLights::set_color(const LEDColor &incol
   #if ENABLED(NEOPIXEL_LED)
 
     const uint32_t neocolor = LEDColorWhite() == incol
-                            ? neo.Color(NEO_WHITE)
-                            : neo.Color(incol.r, incol.g, incol.b, incol.w);
+                            ? pixels.Color(NEO_WHITE)
+                            : pixels.Color(incol.r, incol.g, incol.b, incol.w);
     static uint16_t nextLed = 0;
 
     #ifdef NEOPIXEL_BKGD_LED_INDEX
-      if (NEOPIXEL_BKGD_LED_INDEX == nextLed) {
-        if (++nextLed >= neo.pixels()) nextLed = 0;
-        return;
-      }
+      if (NEOPIXEL_BKGD_LED_INDEX == nextLed) { nextLed++; return; }
     #endif
-
-    neo.set_brightness(incol.i);
-
-    if (isSequence) {
-      neo.set_pixel_color(nextLed, neocolor);
-      neo.show();
-      if (++nextLed >= neo.pixels()) nextLed = 0;
+    pixels.setBrightness(incol.i);
+    if (!isSequence)
+      set_neopixel_color(neocolor);
+    else {
+      pixels.setPixelColor(nextLed, neocolor);
+      pixels.show();
+      if (++nextLed >= pixels.numPixels()) nextLed = 0;
       return;
     }
-
-    neo.set_color(neocolor);
 
   #endif
 
@@ -125,7 +120,7 @@ void LEDLights::set_color(const LEDColor &incol
     // If the pins can do PWM then their intensity will be set.
     #define UPDATE_RGBW(C,c) do { if (PWM_PIN(RGB_LED_##C##_PIN)) \
         analogWrite(pin_t(RGB_LED_##C##_PIN), incol.c); \
-      else WRITE(RGB_LED_##C##_PIN, incol.c ? HIGH : LOW); }while(0)
+      else WRITE(RGB_LED_##C##_PIN, incol.c ? HIGH : LOW); } while(0)
     UPDATE_RGBW(R,r);
     UPDATE_RGBW(G,g);
     UPDATE_RGBW(B,b);

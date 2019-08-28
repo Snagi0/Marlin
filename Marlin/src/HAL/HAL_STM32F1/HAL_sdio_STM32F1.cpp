@@ -25,8 +25,6 @@
 
 #include <libmaple/stm32.h>
 
-#include "../../inc/MarlinConfig.h" // Allow pins/pins.h to set density
-
 #if defined(STM32_HIGH_DENSITY) || defined(STM32_XL_DENSITY)
 
 #include "HAL_sdio_STM32F1.h"

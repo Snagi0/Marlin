@@ -155,9 +155,7 @@ typedef struct block_t {
     uint8_t valve_pressure, e_to_p_pressure;
   #endif
 
-  #if HAS_SPI_LCD
-    uint32_t segment_time_us;
-  #endif
+  uint32_t segment_time_us;
 
 } block_t;
 
@@ -336,7 +334,7 @@ class Planner {
       static uint32_t axis_segment_time_us[2][3];
     #endif
 
-    #if HAS_SPI_LCD
+    #if ENABLED(ULTRA_LCD)
       volatile static uint32_t block_buffer_runtime_us; //Theoretical block buffer runtime in µs
     #endif
 
@@ -775,7 +773,7 @@ class Planner {
         // No trapezoid calculated? Don't execute yet.
         if (TEST(block->flag, BLOCK_BIT_RECALCULATE)) return nullptr;
 
-        #if HAS_SPI_LCD
+        #if ENABLED(ULTRA_LCD)
           block_buffer_runtime_us -= block->segment_time_us; // We can't be sure how long an active block will take, so don't count it.
         #endif
 
@@ -791,7 +789,7 @@ class Planner {
       }
 
       // The queue became empty
-      #if HAS_SPI_LCD
+      #if ENABLED(ULTRA_LCD)
         clear_block_buffer_runtime(); // paranoia. Buffer is empty now - so reset accumulated time to zero.
       #endif
 
@@ -808,7 +806,7 @@ class Planner {
         block_buffer_tail = next_block_index(block_buffer_tail);
     }
 
-    #if HAS_SPI_LCD
+    #if ENABLED(ULTRA_LCD)
 
       static uint16_t block_buffer_runtime() {
         #ifdef __AVR__

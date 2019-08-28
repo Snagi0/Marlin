@@ -268,11 +268,7 @@ class Temperature {
 
     static volatile bool in_temp_isr;
 
-    static hotend_info_t temp_hotend[HOTENDS
-      #if ENABLED(TEMP_SENSOR_1_AS_REDUNDANT)
-        + 1
-      #endif
-    ];
+    static hotend_info_t temp_hotend[HOTENDS];
 
     #if HAS_HEATED_BED
       static bed_info_t temp_bed;
@@ -789,7 +785,7 @@ class Temperature {
       #endif
     #endif
 
-    #if HAS_DISPLAY
+    #if EITHER(ULTRA_LCD, EXTENSIBLE_UI)
       static void set_heating_message(const uint8_t e);
     #endif
 
@@ -832,9 +828,7 @@ class Temperature {
     static void min_temp_error(const heater_ind_t e);
     static void max_temp_error(const heater_ind_t e);
 
-    #define HAS_THERMAL_PROTECTION (EITHER(THERMAL_PROTECTION_HOTENDS, THERMAL_PROTECTION_CHAMBER) || HAS_THERMALLY_PROTECTED_BED)
-
-    #if HAS_THERMAL_PROTECTION
+    #if ENABLED(THERMAL_PROTECTION_HOTENDS) || HAS_THERMALLY_PROTECTED_BED || ENABLED(THERMAL_PROTECTION_CHAMBER)
 
       enum TRState : char { TRInactive, TRFirstHeating, TRStable, TRRunaway };
 
@@ -855,7 +849,7 @@ class Temperature {
 
       static void thermal_runaway_protection(tr_state_machine_t &state, const float &current, const float &target, const heater_ind_t heater_id, const uint16_t period_seconds, const uint16_t hysteresis_degc);
 
-    #endif // HAS_THERMAL_PROTECTION
+    #endif // THERMAL_PROTECTION
 };
 
 extern Temperature thermalManager;
