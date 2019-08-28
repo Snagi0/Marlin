@@ -133,7 +133,6 @@
   // P2_08 E1-Step
   // P2_13 E1-Dir
 
-<<<<<<< HEAD
   #define X_SERIAL_TX_PIN     P2_08
   #define X_SERIAL_RX_PIN     P2_08
 
@@ -145,35 +144,6 @@
 
   #define E0_SERIAL_TX_PIN    P0_00
   #define E0_SERIAL_RX_PIN    P0_00
-=======
-  #ifndef  X_SERIAL_TX_PIN
-    #define X_SERIAL_TX_PIN  P0_01
-  #endif
-  #ifndef X_SERIAL_RX_PIN
-    #define X_SERIAL_RX_PIN  P0_01
-  #endif
-
-  #ifndef Y_SERIAL_TX_PIN
-    #define Y_SERIAL_TX_PIN  P0_00
-  #endif
-  #ifndef Y_SERIAL_RX_PIN
-    #define Y_SERIAL_RX_PIN  P0_00
-  #endif
-
-  #ifndef Z_SERIAL_TX_PIN
-    #define Z_SERIAL_TX_PIN  P2_13
-  #endif
-  #ifndef Z_SERIAL_RX_PIN
-    #define Z_SERIAL_RX_PIN  P2_13
-  #endif
-
-  #ifndef E0_SERIAL_TX_PIN
-    #define E0_SERIAL_TX_PIN P2_08
-  #endif
-  #ifndef E0_SESIAL_RX_PIN
-    #define E0_SERIAL_RX_PIN P2_08
-  #endif
->>>>>>> upstream/bugfix-2.0.x
 
 #endif
 
@@ -405,11 +375,7 @@
       //#define FORCE_SOFT_SPI    // Use this if default of hardware SPI causes display problems
                                   //   results in LCD soft SPI mode 3, SD soft SPI mode 0
 
-<<<<<<< HEAD
       //#define LCD_RESET_PIN  P0_16   // Must be high or open for LCD to operate normally.
-=======
-      #define LCD_RESET_PIN P0_16   // Must be high or open for LCD to operate normally.
->>>>>>> upstream/bugfix-2.0.x
 
       #if EITHER(FYSETC_MINI_12864_1_2, FYSETC_MINI_12864_2_0)
         #ifndef RGB_LED_R_PIN
@@ -422,11 +388,7 @@
           //#define RGB_LED_B_PIN P1_08
         #endif
       #elif ENABLED(FYSETC_MINI_12864_2_1)
-<<<<<<< HEAD
         //#define NEOPIXEL_PIN    P1_00
-=======
-        #define NEOPIXEL_PIN P1_00
->>>>>>> upstream/bugfix-2.0.x
       #endif
     #else   // active with MINIPANEL
       #define DOGLCD_CS    P0_16   // (63) J5-3 & AUX-2   // active with MINIPANEL

@@ -70,7 +70,6 @@
 
 // @section info
 
-<<<<<<< HEAD
 // User-specified version info of this build to display in [Pronterface, etc] terminal window during
 // startup. Implementation of an idea by Prof Braino to inform user that any changes made to this
 // build by the user have been successfully uploaded into firmware.
@@ -78,10 +77,6 @@
 #define SHOW_BOOTSCREEN
 #define STRING_SPLASH_LINE1 "Custom 32-Bit Ender" // will be shown during bootup in line 1
 #define STRING_SPLASH_LINE2 "By Snagi"            // will be shown during bootup in line 2
-=======
-// Author info of this build printed to the host during boot and M115
-#define STRING_CONFIG_H_AUTHOR "(none, default config)" // Who made the changes.
->>>>>>> upstream/bugfix-2.0.x
 
 /**
  * *** VENDORS PLEASE READ ***

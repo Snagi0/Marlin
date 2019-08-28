@@ -161,12 +161,8 @@
   #define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
 #endif
 
-<<<<<<< HEAD
-#if ENABLED(MAKRPANEL)
-=======
 #if EITHER(MAKRPANEL, MINIPANEL)
   #define IS_ULTIPANEL
->>>>>>> upstream/bugfix-2.0.x
   #define DOGLCD
   #if ENABLED(MAKRPANEL)
     #define U8GLIB_ST7565_64128N
@@ -361,31 +357,7 @@
 #define HAS_GRAPHICAL_LCD    ENABLED(DOGLCD)
 #define HAS_CHARACTER_LCD   (HAS_SPI_LCD && !HAS_GRAPHICAL_LCD)
 #define HAS_LCD_MENU        (ENABLED(ULTIPANEL) && DISABLED(NO_LCD_MENUS))
-<<<<<<< HEAD
-
-#define HAS_ADC_BUTTONS     ENABLED(ADC_KEYPAD)
-
-/**
- * Default LCD contrast for Graphical LCD displays
- */
-#define HAS_LCD_CONTRAST (HAS_GRAPHICAL_LCD && defined(DEFAULT_LCD_CONTRAST))
-#if HAS_LCD_CONTRAST
-  #if ENABLED(MINIPANEL)
-    #error "This error should not be triggered" // See https://github.com/MarlinFirmware/Marlin/issues/14174
-  #endif
-  #ifndef LCD_CONTRAST_MIN
-    #define LCD_CONTRAST_MIN 0
-  #endif
-  #ifndef LCD_CONTRAST_MAX
-    #define LCD_CONTRAST_MAX 63
-  #endif
-  #ifndef DEFAULT_LCD_CONTRAST
-    #define DEFAULT_LCD_CONTRAST 32
-  #endif
-#endif
-=======
 #define HAS_ADC_BUTTONS      ENABLED(ADC_KEYPAD)
->>>>>>> upstream/bugfix-2.0.x
 
 /**
  * Extruders have some combination of stepper motors and hotends

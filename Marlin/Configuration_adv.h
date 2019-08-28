@@ -650,12 +650,8 @@
 // @section lcd
 
 #if EITHER(ULTIPANEL, EXTENSIBLE_UI)
-<<<<<<< HEAD
   #define MANUAL_FEEDRATE { 40*60, 40*60, 6*60, 4*60 } // Feedrates for manual moves along X, Y, Z, E from panel
-=======
-  #define MANUAL_FEEDRATE { 50*60, 50*60, 4*60, 60 } // Feedrates for manual moves along X, Y, Z, E from panel
   #define SHORT_MANUAL_Z_MOVE 0.025 // (mm) Smallest manual Z move (< 0.1mm)
->>>>>>> upstream/bugfix-2.0.x
   #if ENABLED(ULTIPANEL)
     #define MANUAL_E_MOVES_RELATIVE // Display extruder move distance rather than "position"
     #define ULTIPANEL_FEEDMULTIPLY  // Encoder sets the feedrate multiplier on the Status Screen
@@ -664,13 +660,8 @@
 
 // @section motion
 
-<<<<<<< HEAD
-// minimum time in microseconds that a movement needs to take if the buffer is emptied.
-#define DEFAULT_MINSEGMENTTIME        10000
-=======
 // Minimum time that a segment needs to take if the buffer is emptied
 #define DEFAULT_MINSEGMENTTIME        20000   // (ms)
->>>>>>> upstream/bugfix-2.0.x
 
 // If defined the movements slow down when the look ahead buffer is only half full
 #define SLOWDOWN
@@ -860,20 +851,16 @@
   #define FEEDRATE_CHANGE_BEEP_FREQUENCY 440
 #endif
 
-<<<<<<< HEAD
-// Include a page of printer information in the LCD Main Menu
-#define LCD_INFO_MENU
-=======
 #if HAS_LCD_MENU
 
   // Include a page of printer information in the LCD Main Menu
-  //#define LCD_INFO_MENU
+  #define LCD_INFO_MENU
   #if ENABLED(LCD_INFO_MENU)
     //#define LCD_PRINTER_INFO_IS_BOOTSCREEN // Show bootscreen(s) instead of Printer Info pages
   #endif
 
   // BACK menu items keep the highlight at the top
-  //#define TURBO_BACK_MENU_ITEM
+  #define TURBO_BACK_MENU_ITEM
 
   /**
    * LED Control Menu
@@ -893,7 +880,6 @@
   #endif
 
 #endif // HAS_LCD_MENU
->>>>>>> upstream/bugfix-2.0.x
 
 // Scroll a longer status message into view
 #define STATUS_MESSAGE_SCROLLING
@@ -950,18 +936,11 @@
    */
   //#define POWER_LOSS_RECOVERY
   #if ENABLED(POWER_LOSS_RECOVERY)
-<<<<<<< HEAD
     #define POWER_LOSS_PIN         P2_12 // Pin to detect power loss
     #define POWER_LOSS_STATE     HIGH // State of pin indicating power loss
+    //#define POWER_LOSS_PULL           // Set pullup / pulldown as appropriate
     #define POWER_LOSS_PURGE_LEN   20 // (mm) Length of filament to purge on resume
     #define POWER_LOSS_RETRACT_LEN 10 // (mm) Length of filament to retract on fail. Requires backup power.
-=======
-    //#define POWER_LOSS_PIN         44 // Pin to detect power loss
-    //#define POWER_LOSS_STATE     HIGH // State of pin indicating power loss
-    //#define POWER_LOSS_PULL           // Set pullup / pulldown as appropriate
-    //#define POWER_LOSS_PURGE_LEN   20 // (mm) Length of filament to purge on resume
-    //#define POWER_LOSS_RETRACT_LEN 10 // (mm) Length of filament to retract on fail. Requires backup power.
->>>>>>> upstream/bugfix-2.0.x
 
     // Without a POWER_LOSS_PIN the following option helps reduce wear on the SD card,
     // especially with "vase mode" printing. Set too high and vases cannot be continued.
