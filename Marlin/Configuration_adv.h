@@ -663,22 +663,6 @@
 
 #define HOME_AFTER_DEACTIVATE  // Require rehoming after steppers are deactivated
 
-<<<<<<< HEAD
-// @section lcd
-
-#if EITHER(ULTIPANEL, EXTENSIBLE_UI)
-  #define MANUAL_FEEDRATE { 40*60, 40*60, 6*60, 4*60 } // Feedrates for manual moves along X, Y, Z, E from panel
-  #define SHORT_MANUAL_Z_MOVE 0.025 // (mm) Smallest manual Z move (< 0.1mm)
-  #if ENABLED(ULTIPANEL)
-    #define MANUAL_E_MOVES_RELATIVE // Display extruder move distance rather than "position"
-    #define ULTIPANEL_FEEDMULTIPLY  // Encoder sets the feedrate multiplier on the Status Screen
-  #endif
-#endif
-
-// @section motion
-
-=======
->>>>>>> bugfix-2.0.x
 // Minimum time that a segment needs to take if the buffer is emptied
 #define DEFAULT_MINSEGMENTTIME        20000   // (ms)
 
@@ -976,15 +960,10 @@
    */
   //#define POWER_LOSS_RECOVERY
   #if ENABLED(POWER_LOSS_RECOVERY)
-<<<<<<< HEAD
+    #define BACKUP_POWER_SUPPLY       // Backup power / UPS to move the steppers on power loss
+    #define POWER_LOSS_ZRAISE       2 // (mm) Z axis raise on resume (on power loss with UPS)
     #define POWER_LOSS_PIN         P2_12 // Pin to detect power loss
     #define POWER_LOSS_STATE     HIGH // State of pin indicating power loss
-=======
-    //#define BACKUP_POWER_SUPPLY       // Backup power / UPS to move the steppers on power loss
-    //#define POWER_LOSS_ZRAISE       2 // (mm) Z axis raise on resume (on power loss with UPS)
-    //#define POWER_LOSS_PIN         44 // Pin to detect power loss
-    //#define POWER_LOSS_STATE     HIGH // State of pin indicating power loss
->>>>>>> bugfix-2.0.x
     //#define POWER_LOSS_PULL           // Set pullup / pulldown as appropriate
     #define POWER_LOSS_PURGE_LEN   20 // (mm) Length of filament to purge on resume
     #define POWER_LOSS_RETRACT_LEN 10 // (mm) Length of filament to retract on fail. Requires backup power.
@@ -1500,12 +1479,8 @@
  *
  * Override the default value based on the driver type set in Configuration.h.
  */
-<<<<<<< HEAD
-#define MINIMUM_STEPPER_DIR_DELAY 20
-=======
-//#define MINIMUM_STEPPER_POST_DIR_DELAY 650
-//#define MINIMUM_STEPPER_PRE_DIR_DELAY 650
->>>>>>> bugfix-2.0.x
+#define MINIMUM_STEPPER_POST_DIR_DELAY 20
+#define MINIMUM_STEPPER_PRE_DIR_DELAY 20
 
 /**
  * Minimum stepper driver pulse width (in µs)
@@ -1638,37 +1613,21 @@
  * Note that M207 / M208 / M209 settings are saved to EEPROM.
  *
  */
-#define FWRETRACT
+//#define FWRETRACT
 #if ENABLED(FWRETRACT)
-<<<<<<< HEAD
-  //#define FWRETRACT_AUTORETRACT           // costs ~500 bytes of PROGMEM
-  #if ENABLED(FWRETRACT_AUTORETRACT)
-    #define MIN_AUTORETRACT 0.1           // When auto-retract is on, convert E moves of this length and over
-    #define MAX_AUTORETRACT 10.0          // Upper limit for auto-retract conversion
-  #endif
-  #define RETRACT_LENGTH 1                // Default retract length (positive mm)
-  #define RETRACT_LENGTH_SWAP 10          // Default swap retract length (positive mm), for extruder change
-  #define RETRACT_FEEDRATE 7             // Default feedrate for retracting (mm/s)
-  #define RETRACT_ZRAISE 0                // Default retract Z-raise (mm)
-  #define RETRACT_RECOVER_LENGTH 0.1        // Default additional recover length (mm, added to retract length when recovering)
-  #define RETRACT_RECOVER_LENGTH_SWAP 0   // Default additional swap recover length (mm, added to retract length when recovering from extruder change)
-  #define RETRACT_RECOVER_FEEDRATE 7      // Default feedrate for recovering from retraction (mm/s)
-  #define RETRACT_RECOVER_FEEDRATE_SWAP 10 // Default feedrate for recovering from swap retraction (mm/s)
-=======
-  #define FWRETRACT_AUTORETRACT           // Override slicer retractions
+  //#define FWRETRACT_AUTORETRACT           // Override slicer retractions
   #if ENABLED(FWRETRACT_AUTORETRACT)
     #define MIN_AUTORETRACT 0.1           // (mm) Don't convert E moves under this length
     #define MAX_AUTORETRACT 10.0          // (mm) Don't convert E moves over this length
   #endif
   #define RETRACT_LENGTH 3                // (mm) Default retract length (positive value)
   #define RETRACT_LENGTH_SWAP 13          // (mm) Default swap retract length (positive value)
-  #define RETRACT_FEEDRATE 45             // (mm/s) Default feedrate for retracting
+  #define RETRACT_FEEDRATE 8             // (mm/s) Default feedrate for retracting
   #define RETRACT_ZRAISE 0                // (mm) Default retract Z-raise
   #define RETRACT_RECOVER_LENGTH 0        // (mm) Default additional recover length (added to retract length on recover)
   #define RETRACT_RECOVER_LENGTH_SWAP 0   // (mm) Default additional swap recover length (added to retract length on recover from toolchange)
   #define RETRACT_RECOVER_FEEDRATE 8      // (mm/s) Default feedrate for recovering from retraction
   #define RETRACT_RECOVER_FEEDRATE_SWAP 8 // (mm/s) Default feedrate for recovering from swap retraction
->>>>>>> bugfix-2.0.x
   #if ENABLED(MIXING_EXTRUDER)
     //#define RETRACT_SYNC_MIXING         // Retract and restore all mixing steppers simultaneously
   #endif
@@ -1871,24 +1830,7 @@
   #define INTERPOLATE       true  // Interpolate X/Y/Z_MICROSTEPS to 256
 
   #if AXIS_IS_TMC(X)
-<<<<<<< HEAD
-    #define X_CURRENT     700  // JK42HS34 current/phase 0,84A
-    #define X_MICROSTEPS   16
-    #define X_RSENSE     0.11
-  #endif
-
-  #if AXIS_IS_TMC(X2)
-    #define X2_CURRENT    800  // (mA) RMS current. Multiply by 1.414 for peak current.
-    #define X2_MICROSTEPS  16  // 0..256
-    #define X2_RSENSE    0.11
-  #endif
-
-  #if AXIS_IS_TMC(Y)
-    #define Y_CURRENT     700  // JK42HS34 current/phase 0,84A
-    #define Y_MICROSTEPS   16
-    #define Y_RSENSE     0.11
-=======
-    #define X_CURRENT       800        // (mA) RMS current. Multiply by 1.414 for peak current.
+    #define X_CURRENT       700        // (mA) RMS current. Multiply by 1.414 for peak current.
     #define X_CURRENT_HOME  X_CURRENT  // (mA) RMS current for sensorless homing
     #define X_MICROSTEPS     16    // 0..256
     #define X_RSENSE          0.11
@@ -1904,12 +1846,11 @@
   #endif
 
   #if AXIS_IS_TMC(Y)
-    #define Y_CURRENT       800
+    #define Y_CURRENT       700
     #define Y_CURRENT_HOME  Y_CURRENT
     #define Y_MICROSTEPS     16
     #define Y_RSENSE          0.11
     #define Y_CHAIN_POS      -1
->>>>>>> bugfix-2.0.x
   #endif
 
   #if AXIS_IS_TMC(Y2)
@@ -1921,17 +1862,11 @@
   #endif
 
   #if AXIS_IS_TMC(Z)
-<<<<<<< HEAD
-    #define Z_CURRENT     650  // JK42HS34 current/phase 0,84A
-    #define Z_MICROSTEPS   16
-    #define Z_RSENSE     0.11
-=======
-    #define Z_CURRENT       800
+    #define Z_CURRENT       650
     #define Z_CURRENT_HOME  Z_CURRENT
     #define Z_MICROSTEPS     16
     #define Z_RSENSE          0.11
     #define Z_CHAIN_POS      -1
->>>>>>> bugfix-2.0.x
   #endif
 
   #if AXIS_IS_TMC(Z2)
@@ -1951,16 +1886,10 @@
   #endif
 
   #if AXIS_IS_TMC(E0)
-<<<<<<< HEAD
-    #define E0_CURRENT    720  // JK43HS40 current/phase 1A
-    #define E0_MICROSTEPS  256
-    #define E0_RSENSE    0.11
-=======
-    #define E0_CURRENT      800
-    #define E0_MICROSTEPS    16
+    #define E0_CURRENT      720
+    #define E0_MICROSTEPS    256
     #define E0_RSENSE         0.11
     #define E0_CHAIN_POS     -1
->>>>>>> bugfix-2.0.x
   #endif
 
   #if AXIS_IS_TMC(E1)
