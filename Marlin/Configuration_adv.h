@@ -1287,7 +1287,7 @@
 #define LIN_ADVANCE
 #if ENABLED(LIN_ADVANCE)
   //#define EXTRA_LIN_ADVANCE_K // Enable for second linear advance constants
-  #define LIN_ADVANCE_K 2.05    // Unit: mm compression per 1mm/s extruder speed
+  #define LIN_ADVANCE_K 1.4 //2.05    // Unit: mm compression per 1mm/s extruder speed
   //#define LA_DEBUG            // If enabled, this will generate debug information output over USB.
 #endif
 
@@ -1505,13 +1505,13 @@
     #define MIN_AUTORETRACT 0.1           // When auto-retract is on, convert E moves of this length and over
     #define MAX_AUTORETRACT 10.0          // Upper limit for auto-retract conversion
   #endif
-  #define RETRACT_LENGTH 3                // Default retract length (positive mm)
-  #define RETRACT_LENGTH_SWAP 13          // Default swap retract length (positive mm), for extruder change
-  #define RETRACT_FEEDRATE 18             // Default feedrate for retracting (mm/s)
+  #define RETRACT_LENGTH 1                // Default retract length (positive mm)
+  #define RETRACT_LENGTH_SWAP 10          // Default swap retract length (positive mm), for extruder change
+  #define RETRACT_FEEDRATE 7             // Default feedrate for retracting (mm/s)
   #define RETRACT_ZRAISE 0                // Default retract Z-raise (mm)
-  #define RETRACT_RECOVER_LENGTH 0        // Default additional recover length (mm, added to retract length when recovering)
+  #define RETRACT_RECOVER_LENGTH 0.1        // Default additional recover length (mm, added to retract length when recovering)
   #define RETRACT_RECOVER_LENGTH_SWAP 0   // Default additional swap recover length (mm, added to retract length when recovering from extruder change)
-  #define RETRACT_RECOVER_FEEDRATE 10      // Default feedrate for recovering from retraction (mm/s)
+  #define RETRACT_RECOVER_FEEDRATE 7      // Default feedrate for recovering from retraction (mm/s)
   #define RETRACT_RECOVER_FEEDRATE_SWAP 10 // Default feedrate for recovering from swap retraction (mm/s)
   #if ENABLED(MIXING_EXTRUDER)
     //#define RETRACT_SYNC_MIXING         // Retract and restore all mixing steppers simultaneously
@@ -1758,7 +1758,7 @@
 
   #if AXIS_IS_TMC(E0)
     #define E0_CURRENT    720  // JK43HS40 current/phase 1A
-    #define E0_MICROSTEPS  16
+    #define E0_MICROSTEPS  256
     #define E0_RSENSE    0.11
   #endif
 
