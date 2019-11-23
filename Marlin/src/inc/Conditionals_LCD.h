@@ -168,6 +168,10 @@
   #if ENABLED(MAKRPANEL)
     #define U8GLIB_ST7565_64128N
   #endif
+#elif ENABLED(MINIPANEL)
+  #define DOGLCD
+  #define ULTIPANEL
+  #undef DEFAULT_LCD_CONTRAST   // fixme: contrast handling currently broken; see https://github.com/MarlinFirmware/Marlin/issues/14174
 #endif
 
 #if ENABLED(IS_U8GLIB_SSD1306)

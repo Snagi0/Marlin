@@ -139,8 +139,18 @@
   // Generic support for SSD1309 OLED I2C LCDs
 
   #define U8G_CLASS U8GLIB_SSD1309_128X64
-  #define U8G_PARAM (U8G_I2C_OPT_NONE | U8G_I2C_OPT_FAST)       // I2C
-
+  #define U8G_PARAM (U8G_I2C_OPT_NONE | U8G_I2C_OPT_FAST)
+#elif ENABLED(MINIPANEL)
+  // MINIPanel display
+  //#define U8G_CLASS U8GLIB_MINI12864
+  //#define U8G_PARAM DOGLCD_CS, DOGLCD_A0                            // 8 stripes
+  #if ENABLED(FORCE_SOFT_SPI)
+    #define U8G_CLASS U8GLIB_MINI12864_2X_HAL
+    #define U8G_PARAM DOGLCD_SCK, DOGLCD_MOSI, DOGLCD_CS, DOGLCD_A0   // 4 stripes SW-SPI
+  #else
+    #define U8G_CLASS U8GLIB_MINI12864_2X
+    #define U8G_PARAM DOGLCD_CS, DOGLCD_A0                              // 8 stripes
+  #endif
 #elif ENABLED(FYSETC_MINI_12864)
 
   // The FYSETC Mini 12864 display

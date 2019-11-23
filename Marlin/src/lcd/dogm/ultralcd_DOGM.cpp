@@ -167,11 +167,15 @@ bool MarlinUI::detected() { return true; }
   void MarlinUI::draw_marlin_bootscreen(const bool line2/*=false*/) {
 
     // Determine text space needed
-    constexpr u8g_uint_t text_width_1 = u8g_uint_t((sizeof(SHORT_BUILD_VERSION) - 1) * (MENU_FONT_WIDTH)),
-                         text_width_2 = u8g_uint_t((sizeof(MARLIN_WEBSITE_URL) - 1) * (MENU_FONT_WIDTH)),
+    #ifndef STRING_SPLASH_LINE2
+      constexpr u8g_uint_t text_total_height = MENU_FONT_HEIGHT,
+                           text_width_2 = 0;
+    #else
+      constexpr u8g_uint_t text_total_height = (MENU_FONT_HEIGHT) * 2,
+                           text_width_2 = u8g_uint_t((sizeof(STRING_SPLASH_LINE2) - 1) * (MENU_FONT_WIDTH));
+    #endif
+    constexpr u8g_uint_t text_width_1 = u8g_uint_t((sizeof(STRING_SPLASH_LINE1) - 1) * (MENU_FONT_WIDTH)),
                          text_max_width = _MAX(text_width_1, text_width_2),
-                         text_total_height = (MENU_FONT_HEIGHT) * 2,
-                         width = LCD_PIXEL_WIDTH, height = LCD_PIXEL_HEIGHT,
                          rspace = width - (START_BMPWIDTH);
 
     u8g_int_t offx, offy, txt_base, txt_offx_1, txt_offx_2;
@@ -186,8 +190,8 @@ bool MarlinUI::detected() { return true; }
     }
     else {
       constexpr int8_t inter = (height - text_total_height - (START_BMPHEIGHT)) / 3; // Evenly distribute vertical space
-      offx = rspace / 2;                        // Center the boot logo in the whole space
       offy = inter;                             // V-align boot logo proportionally
+      offx = rspace / 2;                        // Center the boot logo in the whole space
       txt_offx_1 = (width - text_width_1) / 2;  // Text 1 centered
       txt_offx_2 = (width - text_width_2) / 2;  // Text 2 centered
       txt_base = offy + START_BMPHEIGHT + offy + text_total_height - (MENU_FONT_DESCENT);   // Even spacing looks best
@@ -198,8 +202,12 @@ bool MarlinUI::detected() { return true; }
     auto _draw_bootscreen_bmp = [&](const uint8_t *bitmap) {
       u8g.drawBitmapP(offx, offy, START_BMP_BYTEWIDTH, START_BMPHEIGHT, bitmap);
       set_font(FONT_MENU);
-      if (!two_part || !line2) lcd_put_u8str_P(txt_offx_1, txt_base - (MENU_FONT_HEIGHT), PSTR(SHORT_BUILD_VERSION));
-      if (!two_part || line2) lcd_put_u8str_P(txt_offx_2, txt_base, PSTR(MARLIN_WEBSITE_URL));
+      #ifndef STRING_SPLASH_LINE2
+        lcd_put_u8str_P(txt_offx_1, txt_base, PSTR(STRING_SPLASH_LINE1));
+      #else
+        lcd_put_u8str_P(txt_offx_1, txt_base - (MENU_FONT_HEIGHT), PSTR(STRING_SPLASH_LINE1));
+        lcd_put_u8str_P(txt_offx_2, txt_base, PSTR(STRING_SPLASH_LINE2));
+      #endif
     };
 
     auto draw_bootscreen_bmp = [&](const uint8_t *bitmap) {
