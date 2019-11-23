@@ -398,6 +398,8 @@
   #error "MKS_ROBIN_TFT is now FSMC_GRAPHICAL_TFT. Please update your configuration."
 #elif defined(SDPOWER)
   #error "SDPOWER is now SDPOWER_PIN. Please update your configuration and/or pins."
+#elif defined(STRING_SPLASH_LINE1) || defined(STRING_SPLASH_LINE2)
+  #error "STRING_SPLASH_LINE[12] are now obsolete. Please remove them from Configuration.h."
 #elif defined(Z_PROBE_ALLEN_KEY_DEPLOY_1_X) || defined(Z_PROBE_ALLEN_KEY_STOW_1_X)
   #error "Z_PROBE_ALLEN_KEY_(DEPLOY|STOW) coordinates are now a single setting. Please update your configuration."
 #elif defined(X_PROBE_OFFSET_FROM_EXTRUDER) || defined(Y_PROBE_OFFSET_FROM_EXTRUDER) || defined(Z_PROBE_OFFSET_FROM_EXTRUDER)
