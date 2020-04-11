@@ -59,7 +59,7 @@ class libServo: public Servo {
 
     if (attach(servo_info[servoIndex].Pin.nbr) >= 0) {    // try to reattach
       /* workaround for too long pulse on the servo pin */
-+      if ( (servoIndex == 0) && ( extDigitalRead(SERVO0_PIN) == 1 ) ) {
++      if ((servoIndex == 0) && (extDigitalRead(SERVO0_PIN) == 1 )) {
 +        safe_delay(3);
 +      }
       write(value);
