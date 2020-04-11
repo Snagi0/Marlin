@@ -804,7 +804,7 @@
   #endif
 #endif
 
-#define DEFAULT_EJERK    0.01  // May be used by Linear Advance
+#define DEFAULT_EJERK    0.01  // May be used by Linear Advance if using classic jerk settings
 
 /**
  * Junction Deviation Factor
