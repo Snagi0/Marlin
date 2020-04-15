@@ -764,7 +764,7 @@
 // Increase the slowdown divisor for larger buffer sizes.
 #define SLOWDOWN
 #if ENABLED(SLOWDOWN)
-  #define SLOWDOWN_DIVISOR 16
+  #define SLOWDOWN_DIVISOR 8
 #endif
 
 // Frequency limit
@@ -1518,7 +1518,7 @@
 #define LIN_ADVANCE
 #if ENABLED(LIN_ADVANCE)
   //#define EXTRA_LIN_ADVANCE_K       // Enable for second linear advance constants
-  #define LIN_ADVANCE_K 1.4 //2.05    // Unit: mm compression per 1mm/s extruder speed
+  #define LIN_ADVANCE_K 1.0 //2.05    // Unit: mm compression per 1mm/s extruder speed
   //#define LA_DEBUG                  // If enabled, this will generate debug information output over USB.
 #endif
 
@@ -1716,9 +1716,9 @@
 // The number of linear motions that can be in the plan at any give time.
 // THE BLOCK_BUFFER_SIZE NEEDS TO BE A POWER OF 2 (e.g. 8, 16, 32) because shifts and ors are used to do the ring-buffering.
 #if ENABLED(SDSUPPORT)
-  #define BLOCK_BUFFER_SIZE 128 // SD,LCD,Buttons take more memory, block buffer needs to be smaller
+  #define BLOCK_BUFFER_SIZE 64 // SD,LCD,Buttons take more memory, block buffer needs to be smaller
 #else
-  #define BLOCK_BUFFER_SIZE 128 // maximize block buffer
+  #define BLOCK_BUFFER_SIZE 64 // maximize block buffer
 #endif
 
 // @section serial
