@@ -2238,23 +2238,23 @@
    */
   #define STEALTHCHOP_XY
   #define STEALTHCHOP_Z
-  //#define STEALTHCHOP_E
+  #define STEALTHCHOP_E
 
   /**
    * Optimize spreadCycle chopper parameters by using predefined parameter sets
    * or with the help of an example included in the library.
    * Provided parameter sets are
-   * CHOPPER_DEFAULT_12V
-   * CHOPPER_DEFAULT_19V
-   * CHOPPER_DEFAULT_24V
-   * CHOPPER_DEFAULT_36V
-   * CHOPPER_PRUSAMK3_24V // Imported parameters from the official Prusa firmware for MK3 (24V)
-   * CHOPPER_MARLIN_119   // Old defaults from Marlin v1.1.9
+   * CHOPPER_DEFAULT_12V  // { 3, -1, 1 }
+   * CHOPPER_DEFAULT_19V  // { 4,  1, 1 }
+   * CHOPPER_DEFAULT_24V  // { 4,  2, 1 }
+   * CHOPPER_DEFAULT_36V  // { 5,  2, 4 }
+   * CHOPPER_PRUSAMK3_24V // Imported parameters from the official Prusa firmware for MK3 (24V)  { 3, -2, 6 }
+   * CHOPPER_MARLIN_119   // Old defaults from Marlin v1.1.9  { 5,  2, 3 }
    *
    * Define your own with
    * { <off_time[1..15]>, <hysteresis_end[-3..12]>, hysteresis_start[1..8] }
    */
-  #define CHOPPER_TIMING CHOPPER_DEFAULT_24V
+  #define CHOPPER_TIMING { 3, -1, 5 }
 
   /**
    * Monitor Trinamic drivers for error conditions,
@@ -2284,15 +2284,15 @@
    */
   #define HYBRID_THRESHOLD
 
-  #define X_HYBRID_THRESHOLD      255    //alex tmc test(driver)    //old200  // [mm/s]
+  #define X_HYBRID_THRESHOLD      0    //alex tmc test(driver)    //old200  // [mm/s]
   #define X2_HYBRID_THRESHOLD     200
-  #define Y_HYBRID_THRESHOLD      255    //alex tmc test(driver)    //old200  // [mm/s]
+  #define Y_HYBRID_THRESHOLD      0    //alex tmc test(driver)    //old200  // [mm/s]
   #define Y2_HYBRID_THRESHOLD     200
-  #define Z_HYBRID_THRESHOLD      255    //own  //alex tmc test(driver)    //old40  // [mm/s]
+  #define Z_HYBRID_THRESHOLD      0    //own  //alex tmc test(driver)    //old40  // [mm/s]
   #define Z2_HYBRID_THRESHOLD     40
   #define Z3_HYBRID_THRESHOLD     40
   #define Z4_HYBRID_THRESHOLD     40
-  #define E0_HYBRID_THRESHOLD     255    //alex tmc test(driver)    //old35  // [mm/s]
+  #define E0_HYBRID_THRESHOLD     0    //alex tmc test(driver)    //old35  // [mm/s]
   #define E1_HYBRID_THRESHOLD     35
   #define E2_HYBRID_THRESHOLD     35
   #define E3_HYBRID_THRESHOLD     35
