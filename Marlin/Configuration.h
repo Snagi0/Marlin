@@ -740,14 +740,14 @@
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 7200 } // 450 with 16 microseps
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 1280, 1280, 6400, 7200 } // { 80, 80, 400, 450 } with 16 microseps
 
 /**
  * Default Max Feed Rate (mm/s)
  * Override with M203
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 150, 150, 25, 18 }   //{ 300, 300, 40, 40 }
+#define DEFAULT_MAX_FEEDRATE          { 150, 150, 25, 9 }   //{ 300, 300, 40, 40 }
 //alex tmc test(driver){ 333, 333, 66, 59 }
 //new datasheet(motor){ 350, 350, 60, 70 }
 //old{ 500, 500, 10, 25 }
