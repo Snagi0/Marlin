@@ -796,7 +796,7 @@
   #define DEFAULT_YJERK 3.0
   #define DEFAULT_ZJERK  0.2
 
-  #define TRAVEL_EXTRA_XYJERK 2.0     // Additional jerk allowance for all travel moves
+  #define TRAVEL_EXTRA_XYJERK 1.0     // Additional jerk allowance for all travel moves
 
   #define LIMITED_JERK_EDITING        // Limit edit via M205 or LCD to DEFAULT_aJERK * 2
   #if ENABLED(LIMITED_JERK_EDITING)
@@ -1261,7 +1261,7 @@
     #define MESH_TEST_HOTEND_TEMP    200  // (°C) Default nozzle temperature for the G26 Mesh Validation Tool.
     #define MESH_TEST_BED_TEMP        65  // (°C) Default bed temperature for the G26 Mesh Validation Tool.
     #define G26_XY_FEEDRATE           15  // (mm/s) Feedrate for XY Moves for the G26 Mesh Validation Tool.
-    #define G26_RETRACT_MULTIPLIER   1.0  // G26 Q (retraction) used by default between mesh test elements.
+    #define G26_RETRACT_MULTIPLIER   2.0  // G26 Q (retraction) used by default between mesh test elements.
   #endif
 
 #endif
