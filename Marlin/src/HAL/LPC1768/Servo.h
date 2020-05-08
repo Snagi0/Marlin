@@ -63,9 +63,7 @@ class libServo: public Servo {
       }
       write(value);
       safe_delay(servo_delay[servoIndex]); // delay to allow servo to reach position
-      #if ENABLED(DEACTIVATE_SERVOS_AFTER_MOVE)
-        detach();
-      #endif
+      TERN_(DEACTIVATE_SERVOS_AFTER_MOVE, detach());
     }
 
   }
