@@ -2312,7 +2312,7 @@
    * Define your own with
    * { <off_time[1..15]>, <hysteresis_end[-3..12]>, hysteresis_start[1..8] }
    */
-  #define CHOPPER_TIMING { 3, -3, 7 }
+  #define CHOPPER_TIMING { 2, 3, 1 }
 
   /**
    * Monitor Trinamic drivers
