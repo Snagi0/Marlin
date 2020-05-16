@@ -2312,7 +2312,7 @@
    * Define your own with
    * { <off_time[1..15]>, <hysteresis_end[-3..12]>, hysteresis_start[1..8] }
    */
-  #define CHOPPER_TIMING { 2, 3, 1 }
+  #define CHOPPER_TIMING { 2, 0, 1 }
 
   /**
    * Monitor Trinamic drivers
@@ -2433,7 +2433,12 @@
    *   stepperY.intpol(0); \
    * }
    */
-  //#define TMC_ADV() {  }
+  #define TMC_ADV() { \
+    stepperX.blank_time(24); \
+    stepperY.blank_time(24); \
+    stepperZ.blank_time(24); \
+    stepperE0.blank_time(24); \
+  }
 
 #endif // HAS_TRINAMIC_CONFIG
 
