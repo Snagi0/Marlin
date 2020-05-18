@@ -801,11 +801,11 @@
  */
 #define CLASSIC_JERK
 #if ENABLED(CLASSIC_JERK)
-  #define DEFAULT_XJERK 3.0
-  #define DEFAULT_YJERK 3.0
+  #define DEFAULT_XJERK 2.0
+  #define DEFAULT_YJERK 2.0
   #define DEFAULT_ZJERK  0.2
 
-  #define TRAVEL_EXTRA_XYJERK 1.0     // Additional jerk allowance for all travel moves
+  //#define TRAVEL_EXTRA_XYJERK 1.0     // Additional jerk allowance for all travel moves
 
   #define LIMITED_JERK_EDITING        // Limit edit via M205 or LCD to DEFAULT_aJERK * 2
   #if ENABLED(LIMITED_JERK_EDITING)
@@ -834,7 +834,7 @@
  *
  * See https://github.com/synthetos/TinyG/wiki/Jerk-Controlled-Motion-Explained
  */
-#define S_CURVE_ACCELERATION
+//#define S_CURVE_ACCELERATION
 
 //===========================================================================
 //============================= Z Probe Options =============================
