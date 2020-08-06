@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
 #pragma once
@@ -35,7 +35,15 @@
   #define IS_CARTESIAN 1
 #endif
 
-#if ENABLED(CARTESIO_UI)
+#if ENABLED(MKS_LCD12864)
+  #define MKS_MINI_12864
+#endif
+
+#if EITHER(MKS_MINI_12864, ENDER2_STOCKDISPLAY)
+
+  #define MINIPANEL
+
+#elif ENABLED(CARTESIO_UI)
 
   #define DOGLCD
   #define IS_ULTIPANEL
@@ -98,15 +106,9 @@
 #elif ENABLED(CR10_STOCKDISPLAY)
 
   #define IS_RRD_FG_SC
-  #ifndef ST7920_DELAY_1
-    #define ST7920_DELAY_1 DELAY_NS(125)
-  #endif
-  #ifndef ST7920_DELAY_2
-    #define ST7920_DELAY_2 DELAY_NS(125)
-  #endif
-  #ifndef ST7920_DELAY_3
-    #define ST7920_DELAY_3 DELAY_NS(125)
-  #endif
+  #define BOARD_ST7920_DELAY_1 DELAY_NS(125)
+  #define BOARD_ST7920_DELAY_2 DELAY_NS(125)
+  #define BOARD_ST7920_DELAY_3 DELAY_NS(125)
 
 #elif ENABLED(MKS_12864OLED)
 
@@ -118,9 +120,26 @@
   #define IS_RRD_SC
   #define IS_U8GLIB_SSD1306
 
-#elif EITHER(MKS_MINI_12864, ENDER2_STOCKDISPLAY)
+#elif ENABLED(FYSETC_242_OLED_12864)
 
-  #define MINIPANEL
+  #define IS_RRD_SC
+  #define U8GLIB_SH1106
+
+  #define LED_CONTROL_MENU
+  #define NEOPIXEL_LED
+  #undef NEOPIXEL_TYPE
+  #define NEOPIXEL_TYPE       NEO_RGB
+  #if NEOPIXEL_PIXELS < 3
+    #undef NEOPIXELS_PIXELS
+    #define NEOPIXEL_PIXELS     3
+  #endif
+  #ifndef NEOPIXEL_BRIGHTNESS
+    #define NEOPIXEL_BRIGHTNESS 127
+  #endif
+
+  #if ENABLED(PSU_CONTROL)
+    #define LED_BACKLIGHT_TIMEOUT 10000
+  #endif
 
 #elif ANY(FYSETC_MINI_12864_X_X, FYSETC_MINI_12864_1_2, FYSETC_MINI_12864_2_0, FYSETC_MINI_12864_2_1, FYSETC_GENERIC_12864_1_1)
 
@@ -240,10 +259,17 @@
   #define IS_ULTIPANEL
 #endif
 
+// LVGL UI, SPI or FSMC
+#if EITHER(TFT_LVGL_UI_SPI, TFT_LVGL_UI_FSMC)
+  #define HAS_TFT_LVGL_UI 1
+#endif
+
 // FSMC/SPI TFT Panels
 #if ENABLED(FSMC_GRAPHICAL_TFT)
   #define DOGLCD
   #define IS_ULTIPANEL
+  #define DELAYED_BACKLIGHT_INIT
+#elif ENABLED(TFT_LVGL_UI_SPI)
   #define DELAYED_BACKLIGHT_INIT
 #endif
 
@@ -382,6 +408,14 @@
   #endif
 #endif
 
+#if ENABLED(SR_LCD_3W_NL)
+  // Feature checks for SR_LCD_3W_NL
+#elif EITHER(LCD_I2C_TYPE_MCP23017, LCD_I2C_TYPE_MCP23008)
+  #define USES_LIQUIDTWI2
+#elif ANY(HAS_CHARACTER_LCD, LCD_I2C_TYPE_PCF8575, LCD_I2C_TYPE_PCA8574, SR_LCD_2W_NL, LCM1602)
+  #define USES_LIQUIDCRYSTAL
+#endif
+
 #if ENABLED(ULTIPANEL) && DISABLED(NO_LCD_MENUS)
   #define HAS_LCD_MENU 1
 #endif
@@ -418,6 +452,7 @@
   #undef MIXING_EXTRUDER
   #undef MK2_MULTIPLEXER
   #undef PRUSA_MMU2
+  #undef HOTEND_IDLE_TIMEOUT
 #endif
 
 #if ENABLED(SWITCHING_EXTRUDER)   // One stepper for every two EXTRUDERS
@@ -480,6 +515,8 @@
     #define HAS_MULTI_HOTEND 1
     #define HAS_HOTEND_OFFSET 1
   #endif
+#else
+  #undef PID_PARAMS_PER_HOTEND
 #endif
 
 // Helper macros for extruder and hotend arrays
@@ -530,6 +567,15 @@
   #define UNUSED_E(E) UNUSED(E)
 #endif
 
+#if ENABLED(DWIN_CREALITY_LCD)
+  #define SERIAL_CATCHALL 0
+#endif
+
+// Pressure sensor with a BLTouch-like interface
+#if ENABLED(CREALITY_TOUCH)
+  #define BLTOUCH
+#endif
+
 /**
  * The BLTouch Probe emulates a servo probe
  * and uses "special" angles for its state.
@@ -560,21 +606,13 @@
   #define NUM_SERVOS 0
 #endif
 
-#ifndef PREHEAT_1_LABEL
-  #define PREHEAT_1_LABEL "PLA"
-#endif
-
-#ifndef PREHEAT_2_LABEL
-  #define PREHEAT_2_LABEL "ABS"
-#endif
-
 /**
  * Set a flag for a servo probe (or BLTouch)
  */
 #if defined(Z_PROBE_SERVO_NR) && Z_PROBE_SERVO_NR >= 0
   #define HAS_Z_SERVO_PROBE 1
 #endif
-#if HAS_Z_SERVO_PROBE || EITHER(SWITCHING_EXTRUDER, SWITCHING_NOZZLE)
+#if ANY(HAS_Z_SERVO_PROBE, SWITCHING_EXTRUDER, SWITCHING_NOZZLE)
   #define HAS_SERVO_ANGLES 1
 #endif
 #if !HAS_SERVO_ANGLES
@@ -588,7 +626,7 @@
   #define HAS_BED_PROBE 1
 #endif
 
-#if HAS_BED_PROBE || EITHER(PROBE_MANUALLY, MESH_BED_LEVELING)
+#if ANY(HAS_BED_PROBE, PROBE_MANUALLY, MESH_BED_LEVELING)
   #define PROBE_SELECTED 1
 #endif
 
@@ -609,7 +647,7 @@
     #define PROBE_TRIGGERED_WHEN_STOWED_TEST 1 // Extra test for Allen Key Probe
   #endif
   #if MULTIPLE_PROBING > 1
-    #if EXTRA_PROBING
+    #if EXTRA_PROBING > 0
       #define TOTAL_PROBING (MULTIPLE_PROBING + EXTRA_PROBING)
     #else
       #define TOTAL_PROBING MULTIPLE_PROBING
@@ -686,7 +724,7 @@
 #endif
 
 // This flag indicates some kind of jerk storage is needed
-#if ENABLED(CLASSIC_JERK) || IS_KINEMATIC
+#if EITHER(CLASSIC_JERK, IS_KINEMATIC)
   #define HAS_CLASSIC_JERK 1
 #endif
 
@@ -713,4 +751,11 @@
  */
 #ifndef EXTRUDE_MINTEMP
   #define EXTRUDE_MINTEMP 170
+#endif
+
+/**
+ * To check if we need the folder src/features/leds
+ */
+#if ANY(TEMP_STAT_LEDS, HAS_COLOR_LEDS, HAS_CASE_LIGHT, PRINTER_EVENT_LEDS, LED_BACKLIGHT_TIMEOUT, PCA9632_BUZZER, LED_CONTROL_MENU, NEOPIXEL_LED)
+  #define HAS_LED_FEATURE 1
 #endif
