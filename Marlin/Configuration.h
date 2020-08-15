@@ -1470,7 +1470,7 @@
     // measured AB 74,72 // old 79.92
     // calculated AB 74,68933257 // old 79.91734949
     #define XZ_SKEW_FACTOR -0.00796858 // old 0.00815038
-    #define YZ_SKEW_FACTOR 0,00037750 // old -0.00044241
+    #define YZ_SKEW_FACTOR 0.00037750 // old -0.00044241
   #endif
 
   // Enable this option for M852 to set skew at runtime
